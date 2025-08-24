@@ -1,0 +1,37 @@
+{
+  "login": {
+    "title": "WeBeauty",
+    "subtitle": "Wellness in your pocket",
+    "loginAccount": "Login into your account",
+    "email": "Email",
+    "password": "Password",
+    "login": "LOGIN",
+    "recoverPassword": "Forgot password?",
+    "signUp": "SIGN UP"
+  },
+  "register": {
+    "title": "Sign up",
+    "subtitle": "Create a new account",
+    "phoneSubtitle": "Inserisci il tuo numero di cellulare",
+    "emailSubtitle": "Inserisci la tua email",
+    "userInfoSubtitle": "Inserisci le tue informazioni personali",
+    "passwordSubtitle": "Scegli la tua password",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "birth": "Birth date",
+    "prefix": "Prefix",
+    "phone": "Phone number",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Confirm password",
+    "next": "NEXT",
+    "back": "BACK",
+    "registerCompletedTitle": "Registrazione completata",
+    "registerCompletedSubtitle": "Abbiamo inviato una mail di conferma all'indirizzo email indicato.",
+    "backToLogin": "TORNA AL LOGIN"
+  },
+  "errors": {
+    "invalidEmail": "Email non valida",
+    "passwordRequired": "Password richiesta"
+  }
+}

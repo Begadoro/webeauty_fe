@@ -1,0 +1,4 @@
+/.idea
+expo-env.d.ts
+nativewind-env.d.ts
+/node_modules

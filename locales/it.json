@@ -1,0 +1,37 @@
+{
+  "login": {
+    "title": "WeBeauty",
+    "subtitle": "Il benessere in tasca",
+    "loginAccount": "Accedi al tuo account",
+    "email": "Email",
+    "password": "Password",
+    "login": "ACCEDI",
+    "recoverPassword": "Password dimenticata?",
+    "signUp": "REGISTRATI"
+  },
+  "register": {
+    "title": "Nuovo account",
+    "subtitle": "Crea un nuovo account con cui prenotare i tuoi prossimi trattamenti!",
+    "phoneSubtitle": "Inserisci il tuo numero di cellulare",
+    "emailSubtitle": "Inserisci la tua email",
+    "userInfoSubtitle": "Inserisci le tue informazioni personali",
+    "passwordSubtitle": "Scegli la tua password",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "birth": "Data di nascita",
+    "prefix": "Prefisso",
+    "phone": "Cellulare",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Conferma password",
+    "next": "AVANTI",
+    "back": "ANNULLA",
+    "registerCompletedTitle": "Registrazione completata",
+    "registerCompletedSubtitle": "Abbiamo inviato una mail di conferma all'indirizzo email indicato.",
+    "backToLogin": "TORNA AL LOGIN"
+  },
+  "errors": {
+    "invalidEmail": "Email non valida",
+    "passwordRequired": "Password richiesta"
+  }
+}
