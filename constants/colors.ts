@@ -5,6 +5,7 @@ export default {
   backdrop: "rgba(0, 0, 0, 0.6)",
   greenLight: "#9DD49D",
   greenDark: "#1E611E",
+  green: "#3dc13d",
   errorLight: "#FDAAAA",
   errorExtraLight: "#ffe6e6",
   errorDark: "#9D091E",

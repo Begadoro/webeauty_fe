@@ -179,7 +179,8 @@ export const reviewsMockup = [
     id: "review_1",
     author: "Maria",
     title: "Ottimo!",
-    comment: "Il salone è molto buono e curato. Personale qualificato e disponibile. Ci tornerò sicuramente!",
+    comment:
+      "Il salone è molto buono e curato. Personale qualificato e disponibile. Ci tornerò sicuramente!",
     rating: 4,
     date: "2023-06-01",
   },
@@ -195,8 +196,27 @@ export const reviewsMockup = [
     id: "review_3",
     author: "Francesca",
     title: "Poca igiene",
-    comment: "Il prezzo vale quel che costa. Strumenti lasciati in giro e poca pulizia del locale.",
+    comment:
+      "Il prezzo vale quel che costa. Strumenti lasciati in giro e poca pulizia del locale.",
     rating: 2,
     date: "2023-06-01",
   },
 ];
+
+export const timesMockup = [
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+]

@@ -5,15 +5,16 @@ import colors from "~/constants/colors";
 import { H3, P } from "~/components/ui/typography";
 import * as React from "react";
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
+import { Href, useRouter } from "expo-router";
 import { MockupShop } from "~/constants/mockup";
+import { routes } from "~/constants/routes";
 
 export function ShopCard({ shop }: { shop: MockupShop }) {
   const router = useRouter();
   const { id, name, address, distance, imgUri } = shop;
   return (
     <TouchableOpacity
-      onPress={() => router.push({ pathname: "/(shop)", params: { id } })}
+      onPress={() => router.push(`${routes.SHOP}?id=${id}` as Href)}
     >
       <Card className="flex-row w-full gap-4 p-4 items-center min-h-[80px] bg-card">
         <View className="flex-[1] aspect-square items-center justify-center bg-purpleDark rounded-xl">

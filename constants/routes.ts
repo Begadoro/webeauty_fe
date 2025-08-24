@@ -10,4 +10,6 @@ export const routes: Record<string, Href> = {
   PROFILE: "/(profile)",
   CUSTOMIZATION: "/(profile)/customization",
   SHOP: "/(shop)",
+  TREATMENTS: "/(shop)/treatments",
+  CART: "/(cart)",
 };

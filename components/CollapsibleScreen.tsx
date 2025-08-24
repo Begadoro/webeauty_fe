@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import {
   Animated,
   View,
-  StatusBar,
   ImageSourcePropType,
   TouchableOpacity,
 } from "react-native";
@@ -11,6 +10,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { cn } from "~/lib/utils";
 import { H1, P } from "~/components/ui/typography";
@@ -54,6 +54,7 @@ export default function CollapsibleScreen({
 }: Props) {
   const scrollY = useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets();
+  const { isDarkColorScheme } = useColorScheme();
 
   // Track dynamic header height
   const [headerContentHeight, setHeaderContentHeight] = useState(0);
@@ -92,11 +93,13 @@ export default function CollapsibleScreen({
 
   return (
     <SafeAreaView className="flex-1 bg-background" edges={["left", "right"]}>
-      <StatusBar barStyle="light-content" />
-
+      <StatusBar style={isDarkColorScheme || image ? "light" : "dark"} />
       {collapsible ? (
         <KeyboardAwareScrollView
-          contentContainerStyle={{ paddingTop: headerContentHeight, paddingBottom: insets.bottom }}
+          contentContainerStyle={{
+            paddingTop: headerContentHeight,
+            paddingBottom: insets.bottom,
+          }}
           scrollEventThrottle={16}
           extraScrollHeight={20}
           showsVerticalScrollIndicator={false}
@@ -114,7 +117,10 @@ export default function CollapsibleScreen({
       ) : (
         <View
           className="flex-1"
-          style={{ paddingTop: headerMinHeight + insets.top, paddingBottom: insets.bottom }}
+          style={{
+            paddingTop: headerMinHeight + insets.top,
+            paddingBottom: insets.bottom,
+          }}
         >
           {children}
         </View>
