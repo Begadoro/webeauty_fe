@@ -6,7 +6,7 @@ import {
   Theme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { Stack } from "expo-router";
+import { Stack, Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Appearance, Platform, View } from "react-native";
@@ -48,17 +48,15 @@ export default function RootLayout() {
           <Stack
             screenOptions={{
               headerShown: false,
-              animation: "fade",
               gestureEnabled: false,
             }}
             initialRouteName="index"
           >
             <Stack.Screen name="index" />
-            <Stack.Screen name="(home)/index" />
-            <Stack.Screen name="(home)/search" />
             <Stack.Screen name="(auth)/login" />
             <Stack.Screen name="(auth)/register" />
             <Stack.Screen name="(shop)/index" />
+            <Stack.Screen name="search" />
           </Stack>
         </ToastProvider>
         <StatusBar style={isDarkColorScheme ? "light" : "dark"} />

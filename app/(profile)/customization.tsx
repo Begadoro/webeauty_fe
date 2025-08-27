@@ -5,9 +5,11 @@ import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { Switch } from "~/components/ui/switch";
 import CollapsibleScreen from "~/components/CollapsibleScreen";
+import { useRouter } from "expo-router";
 
 export default function CustomizationScreen() {
   const { isDarkColorScheme, setColorScheme } = useColorScheme();
+  const router = useRouter();
 
   function toggleColorScheme() {
     const newTheme = isDarkColorScheme ? "light" : "dark";
@@ -16,7 +18,7 @@ export default function CustomizationScreen() {
   }
 
   return (
-    <CollapsibleScreen type={1} title="Aspetto">
+    <CollapsibleScreen type={1} title="Aspetto" onBack={router.back}>
       <View className="flex-1 p-6 gap-1">
         <View className="flex-col gap-4">
           <View className="flex-row items-center justify-between">

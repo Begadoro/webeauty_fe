@@ -1,18 +1,20 @@
 import { MockupTreatment } from "~/constants/mockup";
 import { TouchableOpacity, View } from "react-native";
 import { P } from "~/components/ui/typography";
-import {CircleCheck, CirclePlus, Timer } from "lucide-react-native";
+import { CircleCheck, CirclePlus, Timer } from "lucide-react-native";
 import colors from "~/constants/colors";
 import { useCartStore } from "~/hooks/useCartStore";
 import { useMemo } from "react";
-import {cn} from "~/lib/utils";
+import { cn } from "~/lib/utils";
 
 export function TreatmentRow({
   treatment,
   onPress,
+  notEditable,
 }: {
   treatment: MockupTreatment;
   onPress?: () => void;
+  notEditable?: boolean;
 }) {
   const cartStore = useCartStore();
   const isInCart = useMemo(
@@ -21,6 +23,7 @@ export function TreatmentRow({
   );
 
   function thisOnPress() {
+    if (notEditable) return;
     if (isInCart) {
       cartStore.removeItem(treatment);
     } else {
@@ -43,8 +46,16 @@ export function TreatmentRow({
         className="flex-row items-center gap-2 w-1/4 justify-end"
         onPress={thisOnPress}
       >
-        <P className={cn("font-bold text-purpleLight", isInCart && "text-green")}>{treatment.price}€</P>
-        {isInCart ? <CircleCheck color={colors.green} /> : <CirclePlus color={colors.purpleLight} />}
+        <P
+          className={cn("font-bold text-purpleLight", isInCart && "text-green")}
+        >
+          {treatment.price}€
+        </P>
+        {notEditable ? null : isInCart ? (
+          <CircleCheck color={colors.green} />
+        ) : (
+          <CirclePlus color={colors.purpleLight} />
+        )}
       </TouchableOpacity>
     </View>
   );

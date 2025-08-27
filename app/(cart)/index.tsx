@@ -1,87 +1,100 @@
 import CollapsibleScreen from "~/components/CollapsibleScreen";
-import {ScrollView, TouchableOpacity, View} from "react-native";
-import {useCartStore} from "~/hooks/useCartStore";
-import {TreatmentRow} from "~/components/TreatmentRow";
-import {H4, P} from "~/components/ui/typography";
-import {Separator} from "~/components/ui/separator";
+import { View } from "react-native";
+import { useCartStore } from "~/hooks/useCartStore";
+import { H4, P } from "~/components/ui/typography";
 import { BrushCleaning } from "lucide-react-native";
 import colors from "~/constants/colors";
-import { useState } from "react";
-import { Button } from "~/components/ui/button";
-import {timesMockup} from "~/constants/mockup";
-import {Badge} from "~/components/ui/badge";
-import {Card} from "~/components/ui/card";
+import { useMemo, useState } from "react";
 
-export default function CartScreen(){
+import { useRouter } from "expo-router";
+import Animated, { SlideInRight, SlideOutLeft } from "react-native-reanimated";
+import { Treatments } from "~/components/cart/Treatments";
+import { DateTimeSelect } from "~/components/cart/DateTimeSelect";
+import { PaymentMethod } from "~/constants/types";
+import { Payment } from "~/components/cart/Payment";
+import { Recap } from "~/components/cart/Recap";
+import { useLoader } from "~/hooks/useLoader";
+import { routes } from "~/constants/routes";
+
+export default function CartScreen() {
   const cartStore = useCartStore();
+  const router = useRouter();
+  const loader = useLoader();
+
   const [step, setStep] = useState(0);
-  return (
-      <CollapsibleScreen type={1} title={"Carrello"}>
-        {cartStore.items.length > 0 ? (
-            <>
-              {step === 0 && <Treatments setStep={setStep}/>}
-              {step === 1 && <DateTimeSelect setStep={setStep}/>}
-            </>
-        ) : (
-            <View className="flex-col items-center gap-2 w-full py-10">
-              <BrushCleaning color={colors.purpleLight} size={48}/>
-              <H4 className="text-center">Carrello vuoto</H4>
-              <P className="text-center">Torna indietro e seleziona qualche trattamento per continuare!</P>
-            </View>
-        )}
-      </CollapsibleScreen>
-  )
-}
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState("");
+  const [payment, setPayment] = useState<PaymentMethod>(PaymentMethod.CASH);
 
-function Treatments({ setStep } : { setStep: (step: number) => void }){
-  const cartStore = useCartStore();
-  return (
-      <ScrollView className="p-6" contentContainerClassName="gap-4">
-        <View className="gap-1">
-          <H4>Trattamenti selezionati</H4>
-          {cartStore.items.map((item, index) => (<TreatmentRow treatment={item} key={index} />))}
-        </View>
-        <Separator />
-        <Button className="bg-purplePrimary" onPress={() => setStep(1)}>
-          <P className="text-white font-bold">Avanti</P>
-        </Button>
-      </ScrollView>
-  )
-}
+  const dateTime = useMemo(() => {
+    if (!time) {
+      const newDate = new Date(date);
+      newDate.setHours(0, 0, 0, 0);
+      return newDate;
+    }
 
-function DateTimeSelect({ setStep } : { setStep: (step: number) => void }){
+    const [hoursStr, minutesStr] = time.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
+
+    const newDate = new Date(date);
+    newDate.setHours(hours, minutes, 0, 0);
+
+    return newDate;
+  }, [date, time]);
+
+  function onBookTreatment() {
+    loader.show();
+    setTimeout(() => {
+      loader.hide();
+      cartStore.clearCart();
+      router.replace(routes.BOOKED);
+    }, 2000);
+  }
+
   return (
-    <ScrollView className="p-6" contentContainerClassName="gap-4">
-      <View className="gap-2">
-        <H4>Seleziona un giorno</H4>
-        <View className="flex-row flex-wrap">
-          {timesMockup.map((item, index) => (
-              <TouchableOpacity key={index} className="basis-1/5 p-1">
-                <Card className="w-fit p-2 items-center">
-                  <P>{item}</P>
-                </Card>
-              </TouchableOpacity>
-          ))}
+    <CollapsibleScreen type={1} title={"Carrello"} onBack={router.back}>
+      {cartStore.items.length > 0 ? (
+        <Animated.View
+          key={step}
+          entering={SlideInRight.duration(300)}
+          exiting={SlideOutLeft.duration(300)}
+        >
+          {step === 0 && <Treatments setStep={setStep} />}
+          {step === 1 && (
+            <DateTimeSelect
+              setStep={setStep}
+              date={date}
+              setDate={setDate}
+              time={time}
+              setTime={setTime}
+            />
+          )}
+          {step === 2 && (
+            <Payment
+              setStep={setStep}
+              payment={payment}
+              setPayment={setPayment}
+            />
+          )}
+          {step === 3 && (
+            <Recap
+              setStep={setStep}
+              dateTime={dateTime}
+              payment={payment}
+              onBookTreatment={onBookTreatment}
+            />
+          )}
+        </Animated.View>
+      ) : (
+        <View className="flex-col items-center gap-2 w-full py-10">
+          <BrushCleaning color={colors.purpleLight} size={48} />
+          <H4 className="text-center">Carrello vuoto</H4>
+          <P className="text-center">
+            Torna indietro e seleziona qualche trattamento per continuare!
+          </P>
         </View>
-      </View>
-      <View className="gap-2">
-        <H4>Seleziona un orario</H4>
-        <View className="flex-row flex-wrap">
-          {timesMockup.map((item, index) => (
-              <TouchableOpacity key={index} className="basis-1/5 p-1">
-                <Card className="w-fit p-2 items-center">
-                  <P>{item}</P>
-                </Card>
-              </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-      <Separator />
-      <Button className="bg-purplePrimary" onPress={() => setStep(2)}>
-        <P className="text-white font-bold">Avanti</P>
-      </Button>
-      <Button variant="outline" onPress={() => setStep(0)}>
-        <P className="font-bold">Indietro</P>
-      </Button>
-    </ScrollView>)
+      )}
+    </CollapsibleScreen>
+  );
 }

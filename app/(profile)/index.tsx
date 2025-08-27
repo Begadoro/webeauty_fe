@@ -33,7 +33,7 @@ export default function ProfileScreen() {
   const router = useRouter();
 
   return (
-    <CollapsibleScreen title="Profilo" type={1}>
+    <CollapsibleScreen title="Profilo" type={1} onBack={router.back}>
       <View className="flex-1 p-6 gap-1">
         {menuItems.map((item, index) => (
           <MenuCard

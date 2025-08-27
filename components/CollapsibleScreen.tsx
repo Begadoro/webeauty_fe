@@ -36,6 +36,7 @@ type Props = {
   collapsible?: boolean;
   showTitleOnEndScroll?: boolean;
   HeaderContent?: React.ReactNode;
+  onBack?: () => void;
 };
 
 export default function CollapsibleScreen({
@@ -51,6 +52,7 @@ export default function CollapsibleScreen({
   collapsible = false,
   showTitleOnEndScroll = false,
   HeaderContent,
+  onBack,
 }: Props) {
   const scrollY = useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets();
@@ -98,7 +100,6 @@ export default function CollapsibleScreen({
         <KeyboardAwareScrollView
           contentContainerStyle={{
             paddingTop: headerContentHeight,
-            paddingBottom: insets.bottom,
           }}
           scrollEventThrottle={16}
           extraScrollHeight={20}
@@ -119,7 +120,6 @@ export default function CollapsibleScreen({
           className="flex-1"
           style={{
             paddingTop: headerMinHeight + insets.top,
-            paddingBottom: insets.bottom,
           }}
         >
           {children}
@@ -169,9 +169,10 @@ export default function CollapsibleScreen({
               dark={goBackDark}
               titleOpacity={titleOpacity}
               titleTranslateY={titleTranslateY}
+              onBack={onBack}
             />
           )}
-          {type === 2 && <HeaderBack dark={goBackDark} />}
+          {type === 2 && <HeaderBack dark={goBackDark} onBack={onBack} />}
           {HeaderContent}
         </View>
       </Animated.View>
@@ -225,12 +226,14 @@ function HeaderTitleBack({
   dark,
   titleOpacity,
   titleTranslateY,
+  onBack,
 }: {
   title: string;
   titleClassName?: string;
   dark?: boolean;
   titleOpacity?: number | AnimatedInterpolation<string | number>;
   titleTranslateY?: any;
+  onBack?: () => void;
 }) {
   return (
     <View className="flex-row w-full items-center px-6 justify-between h-[50px]">
@@ -248,27 +251,25 @@ function HeaderTitleBack({
           {title}
         </H1>
       </Animated.View>
-      <BackButton dark={dark} />
+      <BackButton dark={dark} onBack={onBack} />
     </View>
   );
 }
 
-function HeaderBack({ dark }: { dark?: boolean }) {
+function HeaderBack({ dark, onBack }: { dark?: boolean; onBack?: () => void }) {
   return (
     <View className="flex-row w-full items-center px-6 justify-end h-[50px]">
-      <BackButton dark={dark} />
+      <BackButton dark={dark} onBack={onBack} />
     </View>
   );
 }
 
-function BackButton({ dark }: { dark?: boolean }) {
+function BackButton({ dark, onBack }: { dark?: boolean; onBack?: () => void }) {
   const router = useRouter();
   const isDarkMode = useColorScheme().isDarkColorScheme;
+
   return (
-    <TouchableOpacity
-      className="flex-row items-center gap-2"
-      onPress={() => router.back()}
-    >
+    <TouchableOpacity className="flex-row items-center gap-2" onPress={onBack}>
       <ChevronLeft size={24} color={dark || isDarkMode ? "white" : "black"} />
       <P className={cn("text-foreground text-xl", dark && "text-white")}>
         Indietro

@@ -5,9 +5,11 @@ import { ShopCard } from "~/components/ShopCard";
 import { Input } from "~/components/ui/input";
 import { Search, SlidersHorizontal } from "lucide-react-native";
 import CollapsibleScreen from "~/components/CollapsibleScreen";
+import { useRouter } from "expo-router";
 
 export default function SearchScreen() {
   const [filter, setFilter] = useState<string>("");
+  const router = useRouter();
   const shopList = useMemo(
     () =>
       filter === ""
@@ -19,7 +21,12 @@ export default function SearchScreen() {
   );
 
   return (
-    <CollapsibleScreen type={1} title="Cerca negozio" collapsible={false}>
+    <CollapsibleScreen
+      type={1}
+      title="Cerca negozio"
+      collapsible={false}
+      onBack={router.back}
+    >
       <View className="flex-1 px-6 gap-1">
         <FlatList
           data={shopList}

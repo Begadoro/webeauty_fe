@@ -7,7 +7,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useLoader } from "~/hooks/useLoader";
 import { useEffect, useState } from "react";
 import { Skeleton } from "~/components/ui/skeleton";
-import {CartFab} from "~/components/CartFab";
+import { CartFab } from "~/components/CartFab";
 
 export default function TreatmentsScreen() {
   const { id } = useLocalSearchParams();
@@ -34,25 +34,24 @@ export default function TreatmentsScreen() {
   }, [id]);
 
   return (
-      <>
-        <CollapsibleScreen type={1} title={"Trattamenti"}>
-          <ScrollView className="p-6" contentContainerClassName="gap-2">
-            {shop && (
-                <>
-                  <H4>
-                    Esplora tutti i trattamenti di{" "}
-                    <H4 className="font-bold text-purpleLight">{shop?.name}</H4>
-                  </H4>
-                  {treatmentsMockup.map((treatment) => (
-                      <TreatmentRow key={treatment.id} treatment={treatment} />
-                  ))}
-                </>
-            )}
-            {!shop && <Skeleton className="w-full h-56 rounded-xl" />}
-          </ScrollView>
-        </CollapsibleScreen>
-        <CartFab />
-      </>
-
+    <>
+      <CollapsibleScreen type={1} title={"Trattamenti"} onBack={router.back}>
+        <ScrollView className="p-6" contentContainerClassName="gap-2">
+          {shop && (
+            <>
+              <H4>
+                Esplora tutti i trattamenti di{" "}
+                <H4 className="font-bold text-purpleLight">{shop?.name}</H4>
+              </H4>
+              {treatmentsMockup.map((treatment) => (
+                <TreatmentRow key={treatment.id} treatment={treatment} />
+              ))}
+            </>
+          )}
+          {!shop && <Skeleton className="w-full h-56 rounded-xl" />}
+        </ScrollView>
+      </CollapsibleScreen>
+      {shop && <CartFab shop={shop} />}
+    </>
   );
 }

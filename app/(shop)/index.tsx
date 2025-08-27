@@ -30,13 +30,17 @@ import { routes } from "~/constants/routes";
 import { Badge } from "~/components/ui/badge";
 import { TreatmentRow } from "~/components/TreatmentRow";
 import { CartFab } from "~/components/CartFab";
+import { ConfirmModal } from "~/components/ConfirmModal";
+import { useCartStore } from "~/hooks/useCartStore";
 
 export default function ShopScreen() {
   const { id } = useLocalSearchParams();
   const loader = useLoader();
   const router = useRouter();
+  const cartStore = useCartStore();
+
   const [shop, setShop] = useState<MockupShop | undefined>();
-  const [fabVisible, setFabVisible] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
   const [coords, setCoords] = useState<{
     latitude: number;
     longitude: number;
@@ -80,7 +84,28 @@ export default function ShopScreen() {
 
   return (
     <>
+      <ConfirmModal
+        open={openConfirm}
+        close={() => setOpenConfirm(false)}
+        onConfirm={() => {
+          cartStore.clearCart();
+          router.back();
+        }}
+        title={"Lasciare il carrello?"}
+        description={
+          "Hai ancora dei trattamenti nel carrello! Uscendo perderai tutti i trattamenti aggiunti. Continuare?"
+        }
+        confirmText={"Continua"}
+        cancelText={"Annulla"}
+      />
       <CollapsibleScreen
+        onBack={() => {
+          if (cartStore.items.length > 0) {
+            setOpenConfirm(true);
+          } else {
+            router.back();
+          }
+        }}
         image={{ uri: shop?.imgUri }}
         loading={!shop}
         type={1}
@@ -106,7 +131,7 @@ export default function ShopScreen() {
         <View className="flex-1 p-6 gap-4">
           {shop && (
             <>
-              <MostPopularCard id={shop.id} setFabVisible={setFabVisible} />
+              <MostPopularCard id={shop.id} />
               <InfoCard shop={shop} />
               {coords && <MapCard coords={coords} shop={shop} />}
               <ReviewsCard />
@@ -121,7 +146,7 @@ export default function ShopScreen() {
           )}
         </View>
       </CollapsibleScreen>
-      <CartFab visible={fabVisible} onPress={() => {}} />
+      {shop && <CartFab shop={shop} />}
     </>
   );
 }
@@ -149,24 +174,14 @@ function InfoCard({ shop }: { shop: MockupShop }) {
   );
 }
 
-function MostPopularCard({
-  id,
-  setFabVisible,
-}: {
-  id: string;
-  setFabVisible: (visible: boolean) => void;
-}) {
+function MostPopularCard({ id }: { id: string }) {
   const router = useRouter();
   return (
     <Card className="p-3 gap-4">
       <H4 className="font-bold">I piú popolari</H4>
       <View className="flex-col gap-2">
         {treatmentsMockup.slice(0, 3).map((treatment) => (
-          <TreatmentRow
-            key={treatment.id}
-            treatment={treatment}
-            onPress={() => setFabVisible(true)}
-          />
+          <TreatmentRow key={treatment.id} treatment={treatment} />
         ))}
         <P className="text-center text-gray">
           + {treatmentsMockup.length} altri

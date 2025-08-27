@@ -1,19 +1,14 @@
 import { ShoppingCart } from "lucide-react-native";
 import React, { useEffect, useRef } from "react";
-import {
-  Animated,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Animated, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import colors from "~/constants/colors";
-import { P } from "~/components/ui/typography";
 import { useCartStore } from "~/hooks/useCartStore";
-import {router} from "expo-router";
-import {routes} from "~/constants/routes";
+import { router } from "expo-router";
+import { routes } from "~/constants/routes";
+import { MockupShop } from "~/constants/mockup";
 
-export function CartFab() {
+export function CartFab({ shop }: { shop: MockupShop }) {
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets();
   const cartStore = useCartStore();
@@ -32,6 +27,11 @@ export function CartFab() {
       }).start();
     }
   }, [cartStore.items]);
+
+  useEffect(() => {
+    cartStore.setShopId(shop.id);
+    cartStore.setShopName(shop.name);
+  }, [shop]);
 
   return (
     <Animated.View

@@ -8,13 +8,18 @@ import { Image } from "expo-image";
 import { Href, useRouter } from "expo-router";
 import { MockupShop } from "~/constants/mockup";
 import { routes } from "~/constants/routes";
+import { useCartStore } from "~/hooks/useCartStore";
 
 export function ShopCard({ shop }: { shop: MockupShop }) {
   const router = useRouter();
+  const cartStore = useCartStore();
   const { id, name, address, distance, imgUri } = shop;
   return (
     <TouchableOpacity
-      onPress={() => router.push(`${routes.SHOP}?id=${id}` as Href)}
+      onPress={() => {
+        cartStore.clearCart();
+        router.push(`${routes.SHOP}?id=${id}` as Href);
+      }}
     >
       <Card className="flex-row w-full gap-4 p-4 items-center min-h-[80px] bg-card">
         <View className="flex-[1] aspect-square items-center justify-center bg-purpleDark rounded-xl">
