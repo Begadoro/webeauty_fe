@@ -1,16 +1,13 @@
-# Starter base
+# WeBeauty
+README.md WIP
 
-A starting point to help you set up your project quickly and use the common components provided by `react-native-reusables`. The idea is to make it easier for you to get started.
+## How to run
 
-## Features
+```bash
+npm install
+npm run dev
+```
 
-- NativeWind v4
-- Dark and light mode
-  - Android Navigation Bar matches mode
-  - Persistent mode
-- Common components
-  - ThemeToggle, Avatar, Button, Card, Progress, Text, Tooltip
-
-<img src="https://github.com/mrzachnugent/react-native-reusables/assets/63797719/42c94108-38a7-498b-9c70-18640420f1bc"
-     alt="starter-base-template"
-     style="width:270px;" />
+## Preview
+![preview1](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2MxdHR1Y2o5aTIzNDhlcWVkamxvMTR0dzllaDQ2NnMycGUzbncwdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cOyq4UFeudLflOneoa/giphy.gif)
+![preview2](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHE1djl5bTFzNmh1bWJ3NzZhbHBlYnRuMHl0cWM0d3N0Z3puZDU3NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/J6GBBTtuK8DBLwymtq/giphy.gif)
