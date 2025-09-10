@@ -5,8 +5,9 @@ export type InternalRoute = Href;
 export const routes: Record<string, Href> = {
   LOGIN: "/(auth)/login",
   REGISTER: "/(auth)/register",
-  SHOPS: "/(tabs)/shops",
-  SEARCH: "/search",
+  HOME: "/(tabs)/home",
+  SEARCH: "/(tabs)/search",
+  MAP: "/(search)/map",
   PROFILE: "/(profile)",
   CUSTOMIZATION: "/(profile)/customization",
   SHOP: "/(shop)",

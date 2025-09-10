@@ -3,13 +3,19 @@ import { useMemo, useState } from "react";
 import { shopsMockup } from "~/constants/mockup";
 import { ShopCard } from "~/components/ShopCard";
 import { Input } from "~/components/ui/input";
-import { Search, SlidersHorizontal } from "lucide-react-native";
+import { MapPin, Search, SlidersHorizontal } from "lucide-react-native";
 import CollapsibleScreen from "~/components/CollapsibleScreen";
-import { useRouter } from "expo-router";
+import {Href, useRouter} from "expo-router";
+import { Button } from "~/components/ui/button";
+import { routes } from "~/constants/routes";
+import { useColorScheme } from "~/lib/useColorScheme";
+import colors from "~/constants/colors";
 
 export default function SearchScreen() {
+  const { isDarkColorScheme } = useColorScheme();
   const [filter, setFilter] = useState<string>("");
   const router = useRouter();
+
   const shopList = useMemo(
     () =>
       filter === ""
@@ -34,15 +40,20 @@ export default function SearchScreen() {
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.id.toString()}
           ListHeaderComponent={
-            <View className="pb-4 bg-card">
+            <View className="flex-row gap-2 pb-4 bg-card">
               <Input
-                className="w-full"
+                className="flex-1"
                 placeholder="Cerca negozio"
                 LeftIcon={Search}
                 value={filter}
                 onChangeText={setFilter}
                 RightIcon={SlidersHorizontal}
               />
+              <Button variant="outline" onPress={() => router.push(`${routes.MAP}?filteredShops=${JSON.stringify(shopList)}` as Href)}>
+                <MapPin
+                  color={isDarkColorScheme ? colors.white : colors.black}
+                />
+              </Button>
             </View>
           }
           stickyHeaderIndices={[0]}

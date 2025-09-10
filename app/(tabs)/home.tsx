@@ -7,7 +7,7 @@ import { Input } from "~/components/ui/input";
 import { Search, Store } from "lucide-react-native";
 import { routes } from "~/constants/routes";
 
-export default function ShopsScreen() {
+export default function HomeScrenn() {
   const router = useRouter();
   return (
     <CollapsibleScreen

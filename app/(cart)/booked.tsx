@@ -32,7 +32,7 @@ export default function BookedScreen() {
         <Button
           variant="ghost"
           className="w-full"
-          onPress={() => router.replace(routes.SHOPS)}
+          onPress={() => router.replace(routes.HOME)}
         >
           <P className="text-white font-bold">Torna alla home</P>
         </Button>

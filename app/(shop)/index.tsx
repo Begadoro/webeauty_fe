@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import {
   MockupReview,
   MockupShop,
-  MockupTreatment,
   reviewsMockup,
   shopsMockup,
   treatmentsMockup,
@@ -17,17 +16,9 @@ import MapView, { Marker } from "react-native-maps";
 import Tag from "~/components/Tag";
 import { Card } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
-import {
-  CirclePlus,
-  MapPin,
-  Phone,
-  Plus,
-  Star,
-  Timer,
-} from "lucide-react-native";
+import { MapPin, Phone, Star } from "lucide-react-native";
 import colors from "~/constants/colors";
 import { routes } from "~/constants/routes";
-import { Badge } from "~/components/ui/badge";
 import { TreatmentRow } from "~/components/TreatmentRow";
 import { CartFab } from "~/components/CartFab";
 import { ConfirmModal } from "~/components/ConfirmModal";
@@ -41,10 +32,6 @@ export default function ShopScreen() {
 
   const [shop, setShop] = useState<MockupShop | undefined>();
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [coords, setCoords] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
 
   function fetchShop() {
     loader.show();
@@ -58,25 +45,6 @@ export default function ShopScreen() {
       loader.hide();
     }, 2000);
   }
-
-  async function fetchCoords() {
-    if (shop) {
-      const coordsReq = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(shop.address)}&format=json&limit=1`,
-      );
-      if (coordsReq.ok) {
-        const json = await coordsReq.json();
-        setCoords({
-          latitude: parseFloat(json[0].lat),
-          longitude: parseFloat(json[0].lon),
-        });
-      }
-    }
-  }
-
-  useEffect(() => {
-    fetchCoords().then();
-  }, [shop]);
 
   useEffect(() => {
     fetchShop();
@@ -133,7 +101,7 @@ export default function ShopScreen() {
             <>
               <MostPopularCard id={shop.id} />
               <InfoCard shop={shop} />
-              {coords && <MapCard coords={coords} shop={shop} />}
+              <MapCard shop={shop} />
               <ReviewsCard />
             </>
           )}
@@ -197,13 +165,7 @@ function MostPopularCard({ id }: { id: string }) {
   );
 }
 
-function MapCard({
-  coords,
-  shop,
-}: {
-  coords: { latitude: number; longitude: number };
-  shop: MockupShop;
-}) {
+function MapCard({ shop }: { shop: MockupShop }) {
   const url = Platform.select({
     ios: `maps:0,0?q=${shop.address}`,
     android: `geo:0,0?q=${shop.address}`,
@@ -220,12 +182,18 @@ function MapCard({
         pitchEnabled={false}
         style={{ flex: 1, borderRadius: 12 }}
         initialRegion={{
-          ...coords,
+          latitude: parseFloat(shop.lat),
+          longitude: parseFloat(shop.lon),
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
       >
-        <Marker coordinate={coords} />
+        <Marker
+          coordinate={{
+            latitude: parseFloat(shop.lat),
+            longitude: parseFloat(shop.lon),
+          }}
+        />
       </MapView>
     </TouchableOpacity>
   );

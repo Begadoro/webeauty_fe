@@ -55,8 +55,9 @@ export default function RootLayout() {
             <Stack.Screen name="index" />
             <Stack.Screen name="(auth)/login" />
             <Stack.Screen name="(auth)/register" />
-            <Stack.Screen name="(shop)/index" />
-            <Stack.Screen name="search" />
+            <Stack.Screen name="(shop)/index" options={{ gestureEnabled: true }}/>
+            <Stack.Screen name="(shop)/treatments" options={{ gestureEnabled: true }}/>
+            <Stack.Screen name="(search)/map"/>
           </Stack>
         </ToastProvider>
         <StatusBar style={isDarkColorScheme ? "light" : "dark"} />

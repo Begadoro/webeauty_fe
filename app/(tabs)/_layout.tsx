@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import {Book, Store, User} from "lucide-react-native";
+import { Book, Store, User, Home } from "lucide-react-native";
 import colors from "~/constants/colors";
 import { useColorScheme } from "~/lib/useColorScheme";
 
@@ -8,21 +8,39 @@ export default function TabLayout() {
   return (
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen
-        name="shops"
+        name="home"
         options={{
-          title: "Negozi",
+          title: "Home",
           tabBarIcon: ({ focused }) => (
-            <Store
+            <Home
               color={
                 focused
-                  ? colors.purplePrimary
+                  ? colors.purpleLight
                   : isDarkColorScheme
                     ? colors.white
                     : colors.black
               }
             />
           ),
-          tabBarActiveTintColor: colors.purplePrimary,
+          tabBarActiveTintColor: colors.purpleLight,
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Negozi",
+          tabBarIcon: ({ focused }) => (
+            <Store
+              color={
+                focused
+                  ? colors.purpleLight
+                  : isDarkColorScheme
+                    ? colors.white
+                    : colors.black
+              }
+            />
+          ),
+          tabBarActiveTintColor: colors.purpleLight,
         }}
       />
       <Tabs.Screen
@@ -33,33 +51,33 @@ export default function TabLayout() {
             <Book
               color={
                 focused
-                  ? colors.purplePrimary
+                  ? colors.purpleLight
                   : isDarkColorScheme
                     ? colors.white
                     : colors.black
               }
             />
           ),
-          tabBarActiveTintColor: colors.purplePrimary,
+          tabBarActiveTintColor: colors.purpleLight,
         }}
       />
       <Tabs.Screen
-          name="profile"
-          options={{
-            title: "Profilo",
-            tabBarIcon: ({ focused }) => (
-                <User
-                    color={
-                      focused
-                          ? colors.purplePrimary
-                          : isDarkColorScheme
-                              ? colors.white
-                              : colors.black
-                    }
-                />
-            ),
-            tabBarActiveTintColor: colors.purplePrimary,
-          }}
+        name="profile"
+        options={{
+          title: "Profilo",
+          tabBarIcon: ({ focused }) => (
+            <User
+              color={
+                focused
+                  ? colors.purpleLight
+                  : isDarkColorScheme
+                    ? colors.white
+                    : colors.black
+              }
+            />
+          ),
+          tabBarActiveTintColor: colors.purpleLight,
+        }}
       />
     </Tabs>
   );
